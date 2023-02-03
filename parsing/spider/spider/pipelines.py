@@ -1,17 +1,8 @@
-# Define your item pipelines here
-#
-# Don't forget to add your pipeline to the ITEM_PIPELINES setting
-# See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
+import json
 
-
-# useful for handling different item types with a single interface
-from itemadapter import ItemAdapter
-
-
-class SpiderPipeline:
-    def process_item(self, item, spider):
-        print(spider)
-        return item
+import zmq
+from scrapy.utils.project import get_project_settings
+settings = get_project_settings()
 
 class TextPipeLine:
     def process_item(self, item, spider):
@@ -25,8 +16,40 @@ class TextPipeLine:
                     break
             else:
                 new_text.append(sentence)
-        new_text = ' '.join([title for title in new_text if title and (len(title.split()) > 3)])
+        new_text = '. '.join([title for title in new_text if title and (len(title.split()) > 3)])
 
         item['data'] = new_text
 
         return item
+
+class PublisherPipeLine:
+    def open_spider(self, spider):
+        print('OPEN SPIDER')
+        self.context = zmq.Context()
+
+        # Socket to talk to clients
+        self.publisher = self.context.socket(zmq.PUB)
+        self.publisher.sndhwm = 110000
+        self.publisher.bind("tcp://*:5561")
+
+        # Socket to receive signals
+        self.syncservice = self.context.socket(zmq.REP)
+        self.syncservice.bind("tcp://*:5562")
+
+        self.subscribers = 0
+        while self.subscribers < settings['SUBSCRIBERS_EXPECTED']:
+            msg = self.syncservice.recv()
+            self.syncservice.send(b'')
+            self.subscribers += 1
+
+            spider.logger.debug(f'Subscribers {self.subscribers}/2')
+        spider.logger.info('All subscribers are present')
+
+    def process_item(self, item, spider):
+        spider.logger.debug(f'Sending item {item["url"]}')
+        self.publisher.send_json(json.dumps(item, ensure_ascii=False, default=str))
+        return item
+
+    def close_spider(self, spider):
+        self.syncservice.close()
+        self.publisher.close()
