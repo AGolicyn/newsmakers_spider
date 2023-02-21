@@ -54,7 +54,7 @@ DOWNLOADER_MIDDLEWARES = {
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'spider.pipelines.TextPipeLine': 300,
-    'spider.pipelines.PublisherPipeLine': 400,
+    # 'spider.pipelines.PublisherPipeLine': 400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -82,6 +82,7 @@ SPLASH_URL = 'http://192.168.0.102:8050'
 
 REQUEST_FINGERPRINTER_IMPLEMENTATION = '2.7'
 TWISTED_REACTOR = 'twisted.internet.asyncioreactor.AsyncioSelectorReactor'
+
 FEEDS = {"my_items.json": {
     "format": "jsonlines",
     "encoding": "utf-8",
@@ -109,7 +110,6 @@ DE_NEWSPAPERS_URLS = [
     'https://www.heise.de/',
     'https://www.focus.de/',
     'https://www.spiegel.de/',
-
 ]
 
 DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
@@ -132,3 +132,5 @@ RETRY_ENABLED = False
 
 # Socket settings
 SUBSCRIBERS_EXPECTED = 1
+SYNCSERVER_ADDRESS_1 = "tcp://192.168.0.102:5562"
+# SYNCSERVER_ADDRESS_2 = "tcp://192.168.0.102:5563"

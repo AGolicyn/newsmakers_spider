@@ -5,10 +5,12 @@ import scrapy
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 from scrapy_splash import SplashRequest
+from utils import LANGUAGE_MAPPER, GLOBAL_URLS, COUNTRY_MAPPER
 settings = get_project_settings()
 
 class RuSpider(scrapy.Spider):
     name = 'ru'
+    # start_urls = GLOBAL_URLS
     start_urls = settings['RU_NEWSPAPERS_URLS']
 
     def start_requests(self):
@@ -23,15 +25,26 @@ class RuSpider(scrapy.Spider):
             )
 
     def parse(self, response, **kwargs):
-        text = response.css('body *::text').getall()
-
-        item = {
-            "url": response.url,
-            "time": datetime.now(),
-            "lang": 'RU',
-            "data": text
-        }
-        yield item
+        try:
+            result = [
+                (value.css('*::text').get(),
+                 value.css('::attr(href)').get())
+                for value in response.css('a')
+            ]
+        except TypeError as e:
+            self.logger.error(repr(e))
+        else:
+            for title, href in result:
+                # print(result)
+                item = {
+                    "url": response.url,
+                    "href": href,
+                    "time": datetime.now(),
+                    "lang": LANGUAGE_MAPPER.get(response.url),
+                    "country": COUNTRY_MAPPER.get(response.url),
+                    "title": title
+                }
+                yield item
 
     def errback_httpbin(self, failure):
         self.logger.error(repr(failure))

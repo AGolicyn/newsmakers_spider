@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  spider:
+    build:
+      context: .
+      dockerfile: docker/spider/Dockerfile
+    ports:
+      - "5561:5561"
+    volumes:
+      - ./spider:/src/parsing
+    command: python /src/parsing/spider/spiders/my_spiders/main.py
+    depends_on:
+      - splash
+  splash:
+    image: scrapinghub/splash
+    ports:
+      - "8050:8050"
+
