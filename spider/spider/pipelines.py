@@ -1,4 +1,5 @@
 import json
+import os
 
 import zmq
 from scrapy.utils.project import get_project_settings
@@ -29,13 +30,12 @@ class PublisherPipeLine:
         # Socket to talk to clients
         self.publisher = self.context.socket(zmq.PUB)
         self.publisher.sndhwm = 110000
-        self.publisher.bind("tcp://*:5561")
+        self.publisher.bind(os.environ.get('SPIDER_PUBLISHER_ADDRESS'))
 
         # Socket to send signals
-        spider.logger.debug('Wait for subscribers...')
         self.syncclient = self.context.socket(zmq.REQ)
-        self.syncclient.connect(settings['SYNCSERVER_ADDRESS_1'])
-        # self.syncclient.connect(settings['SYNCSERVER_ADDRESS_2'])
+        self.syncclient.connect(os.environ.get('SYNCSERVER_ADDRESS'))
+        spider.logger.debug(f'Spider start sending sync requests to {os.environ.get("SYNCSERVER_ADDRESS")}')
 
         self.subscribers = 0
         while self.subscribers < settings['SUBSCRIBERS_EXPECTED']:
@@ -53,6 +53,6 @@ class PublisherPipeLine:
         return item
 
     def close_spider(self, spider):
-        # Send empty to close subscriber's socket
+        # Send "END" to close subscriber's socket
         self.publisher.send_json({'END': True})
         self.publisher.close()

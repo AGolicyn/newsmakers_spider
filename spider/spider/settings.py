@@ -1,4 +1,6 @@
 # SPIDER_MODULES = ['spider.spiders']
+import os
+
 NEWSPIDER_MODULE = 'spider.spiders'
 
 # Obey robots.txt rules
@@ -54,7 +56,7 @@ DOWNLOADER_MIDDLEWARES = {
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'spider.pipelines.TextPipeLine': 300,
-    # 'spider.pipelines.PublisherPipeLine': 400,
+    'spider.pipelines.PublisherPipeLine': 400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -78,7 +80,8 @@ AUTOTHROTTLE_MAX_DELAY = 20
 # HTTPCACHE_IGNORE_HTTP_CODES = []
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-SPLASH_URL = 'http://192.168.0.102:8050'
+# SPLASH_URL = 'http://192.168.0.102:8050'
+SPLASH_URL = 'http://splash:8050'
 
 REQUEST_FINGERPRINTER_IMPLEMENTATION = '2.7'
 TWISTED_REACTOR = 'twisted.internet.asyncioreactor.AsyncioSelectorReactor'
@@ -91,8 +94,8 @@ FEEDS = {"my_items.json": {
 
 RU_NEWSPAPERS_URLS = [
     'https://aif.ru/',
-    # 'https://lenta.ru/',
-    # 'https://www.mk.ru/',
+    'https://lenta.ru/',
+    'https://www.mk.ru/',
     # 'https://rg.ru/',
     # 'https://www.kommersant.ru/',
 
@@ -132,5 +135,5 @@ RETRY_ENABLED = False
 
 # Socket settings
 SUBSCRIBERS_EXPECTED = 1
-SYNCSERVER_ADDRESS_1 = "tcp://192.168.0.102:5562"
-# SYNCSERVER_ADDRESS_2 = "tcp://192.168.0.102:5563"
+# os.environ('')
+SYNCSERVER_ADDRESS_1 = "tcp://nlp:5562"
