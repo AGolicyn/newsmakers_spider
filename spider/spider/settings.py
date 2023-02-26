@@ -55,8 +55,9 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
+    'spider.pipelines.DuplicatesPipeLine': 200,
     'spider.pipelines.TextPipeLine': 300,
-    'spider.pipelines.PublisherPipeLine': 400,
+    # 'spider.pipelines.PublisherPipeLine': 400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -96,8 +97,8 @@ RU_NEWSPAPERS_URLS = [
     'https://aif.ru/',
     'https://lenta.ru/',
     'https://www.mk.ru/',
-    # 'https://rg.ru/',
-    # 'https://www.kommersant.ru/',
+    'https://rg.ru/',
+    'https://www.kommersant.ru/',
 
 ]
 US_NEWSPAPERS_URLS = [
@@ -135,5 +136,3 @@ RETRY_ENABLED = False
 
 # Socket settings
 SUBSCRIBERS_EXPECTED = 1
-# os.environ('')
-SYNCSERVER_ADDRESS_1 = "tcp://nlp:5562"

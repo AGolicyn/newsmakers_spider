@@ -3,6 +3,7 @@ import os
 
 import zmq
 from scrapy.utils.project import get_project_settings
+from scrapy.exceptions import DropItem
 
 settings = get_project_settings()
 
@@ -13,12 +14,16 @@ class TextPipeLine:
         if item['href'] and item['href'].startswith('/'):
             item['href'] = item['url'] + item['href'][1:]
 
-        # check text informative
-        title = item['title']
-        if title:
-            item['title'] = title.strip('\n\t«» ')
-        if title and len(title.split()) < 5:
-            item['title'] = ''
+        # drop empty titles
+        if not item['title']:
+            raise DropItem(r'Empty title found')
+
+        # clear text in titles
+        item['title'] = item['title'].strip('\n\t«» ')
+
+        # drop empty or few informative titles
+        if not item['title'] or (len(item['title'].split()) < 5):
+            raise DropItem(r'Useless title found')
 
         return item
 
@@ -47,12 +52,22 @@ class PublisherPipeLine:
         spider.logger.info('All subscribers are present')
 
     def process_item(self, item, spider):
-        if item['title']:
-            spider.logger.debug(f'Sending item {item["url"]}')
-            self.publisher.send_json(item, ensure_ascii=False, default=str)
+        spider.logger.debug(f'Sending item {item["url"]}')
+        self.publisher.send_json(item, ensure_ascii=False, default=str)
         return item
 
     def close_spider(self, spider):
         # Send "END" to close subscriber's socket
         self.publisher.send_json({'END': True})
         self.publisher.close()
+
+class DuplicatesPipeLine:
+    def __init__(self):
+        self.seen_href = set()
+
+    def process_item(self, item, spider):
+        if item["href"] in self.seen_href:
+            raise DropItem(f'Duplicate item with href {item["href"]}')
+        else:
+            self.seen_href.add(item["href"])
+        return item
