@@ -8,10 +8,11 @@ from scrapy_splash import SplashRequest
 from utils import LANGUAGE_MAPPER, GLOBAL_URLS, COUNTRY_MAPPER
 settings = get_project_settings()
 
+
 class RuSpider(scrapy.Spider):
     name = 'ru'
-    # start_urls = GLOBAL_URLS
-    start_urls = settings['RU_NEWSPAPERS_URLS']
+    start_urls = GLOBAL_URLS
+    # start_urls = settings['RU_NEWSPAPERS_URLS']
 
     def start_requests(self):
         for url in self.start_urls:

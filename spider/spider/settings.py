@@ -1,5 +1,4 @@
 # SPIDER_MODULES = ['spider.spiders']
-import os
 
 NEWSPIDER_MODULE = 'spider.spiders'
 
@@ -57,7 +56,7 @@ DOWNLOADER_MIDDLEWARES = {
 ITEM_PIPELINES = {
     'spider.pipelines.DuplicatesPipeLine': 200,
     'spider.pipelines.TextPipeLine': 300,
-    # 'spider.pipelines.PublisherPipeLine': 400,
+    'spider.pipelines.PublisherPipeLine': 400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -99,7 +98,10 @@ RU_NEWSPAPERS_URLS = [
     'https://www.mk.ru/',
     'https://rg.ru/',
     'https://www.kommersant.ru/',
-
+    'https://www.vedomosti.ru/',
+    'https://www.kp.ru/',
+    'https://tass.ru/',
+    'https://regnum.ru/',
 ]
 US_NEWSPAPERS_URLS = [
     'https://www.nytimes.com/',
@@ -108,12 +110,20 @@ US_NEWSPAPERS_URLS = [
     'https://www.usatoday.com/',
     'https://www.foxnews.com/',
     'https://abcnews.go.com/',
+    'https://www.latimes.com/',
+    'https://nypost.com/',
+    'https://www.tampabay.com/',
 
 ]
 DE_NEWSPAPERS_URLS = [
     'https://www.heise.de/',
     'https://www.focus.de/',
     'https://www.spiegel.de/',
+    'https://www.faz.net/aktuell/',
+    'https://www.sueddeutsche.de/',
+    'https://taz.de/',
+    'https://www.deutschland.de/de',
+    'https://www.tagesschau.de/',
 ]
 
 DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'

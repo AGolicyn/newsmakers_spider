@@ -1,4 +1,3 @@
-import json
 import os
 
 import zmq
@@ -40,15 +39,16 @@ class PublisherPipeLine:
         # Socket to send signals
         self.syncclient = self.context.socket(zmq.REQ)
         self.syncclient.connect(os.environ.get('SYNCSERVER_ADDRESS'))
-        spider.logger.debug(f'Spider start sending sync requests to {os.environ.get("SYNCSERVER_ADDRESS")}')
+        spider.logger.debug(f'Spider start sending sync requests '
+                            f'to {os.environ.get("SYNCSERVER_ADDRESS")}')
 
         self.subscribers = 0
         while self.subscribers < settings['SUBSCRIBERS_EXPECTED']:
             self.syncclient.send(b'')
-            msg = self.syncclient.recv()
+            self.syncclient.recv()
             self.subscribers += 1
 
-            spider.logger.debug(f'Subscribers {self.subscribers}/2')
+            spider.logger.debug(f'Subscribers {self.subscribers}/1')
         spider.logger.info('All subscribers are present')
 
     def process_item(self, item, spider):
@@ -60,6 +60,7 @@ class PublisherPipeLine:
         # Send "END" to close subscriber's socket
         self.publisher.send_json({'END': True})
         self.publisher.close()
+
 
 class DuplicatesPipeLine:
     def __init__(self):
