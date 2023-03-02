@@ -1,0 +1,12 @@
+name: Runner
+on:
+  schedule:
+    - cron: '0 0 * * *'
+jobs:
+  test_shedule:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Calling the spider
+        run: echo 'Time to crowl :)'
+        
