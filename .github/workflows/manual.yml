@@ -1,7 +1,7 @@
 name: Runner
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '4 * * * *'
 jobs:
   test_shedule:
     runs-on: ubuntu-latest
