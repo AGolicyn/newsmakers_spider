@@ -1,7 +1,7 @@
 name: Runner
 on:
   schedule:
-    - cron: '15 * * * *'
+    - cron: '45 17 * * *'
 
 jobs:
   test_shedule:
