@@ -124,6 +124,20 @@ DE_NEWSPAPERS_URLS = [
     'https://taz.de/',
     'https://www.deutschland.de/de',
     'https://www.tagesschau.de/',
+    'https://www.mdr.de/nachrichten/index.html',
+    'https://www.tagesspiegel.de/',
+    'https://www.deutschlandfunk.de/',
+    'https://www.nachrichtenleicht.de/',
+    'https://www.stern.de/',
+    'https://www.rnd.de/',
+    'https://www.handelsblatt.com/',
+    'https://www.berliner-zeitung.de/',
+    'https://www.fnp.de/',
+    # 'https://www.freiepresse.de/',
+    'https://www.rtl.de/',
+    'https://www.nd-aktuell.de/',
+    'https://www.rbb24.de/',
+    'https://www.msn.com/de-de',
 ]
 
 DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'

@@ -1,3 +1,6 @@
+import schedule
+import time
+from loguru import logger
 import random
 from datetime import datetime
 
@@ -6,12 +9,14 @@ from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 from scrapy_splash import SplashRequest
 from utils import LANGUAGE_MAPPER, GLOBAL_URLS, COUNTRY_MAPPER
+
 settings = get_project_settings()
 
 
 class RuSpider(scrapy.Spider):
     name = 'ru'
     start_urls = GLOBAL_URLS
+
     # start_urls = settings['RU_NEWSPAPERS_URLS']
 
     def start_requests(self):
@@ -51,6 +56,15 @@ class RuSpider(scrapy.Spider):
         self.logger.error(repr(failure))
 
 
-process = CrawlerProcess(settings=settings)
-process.crawl(RuSpider)
-process.start()
+def crawl():
+    process = CrawlerProcess(settings=settings)
+    process.crawl(RuSpider)
+    process.start()
+
+
+schedule.every().day.at("17:30").do(crawl)
+
+while True:
+    schedule.run_pending()
+    logger.debug('Chilling until 17:30')
+    time.sleep(59)
