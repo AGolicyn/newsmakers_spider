@@ -50,4 +50,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/spider_news:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/newsmakers-spider:latest
