@@ -1,6 +1,3 @@
-import schedule
-import time
-from loguru import logger
 import random
 from datetime import datetime
 
@@ -21,12 +18,19 @@ class RuSpider(scrapy.Spider):
 
     def start_requests(self):
         for url in self.start_urls:
+            usr_ag = random.choice(settings['USER_AGENT_LIST'])
             yield SplashRequest(
                 url=url,
                 callback=self.parse,
                 errback=self.errback_httpbin,
                 headers={
-                    'user-agent': random.choice(settings['USER_AGENT_LIST']),
+                    'user-agent': usr_ag
+                },
+                splash_headers={
+                    'user-agent': usr_ag,
+                },
+                args={
+                    'wait': 0.5,
                 }
             )
 
@@ -56,15 +60,6 @@ class RuSpider(scrapy.Spider):
         self.logger.error(repr(failure))
 
 
-def crawl():
-    process = CrawlerProcess(settings=settings)
-    process.crawl(RuSpider)
-    process.start()
-
-
-schedule.every().day.at("17:30").do(crawl)
-
-while True:
-    schedule.run_pending()
-    logger.debug('Chilling until 17:30')
-    time.sleep(59)
+process = CrawlerProcess(settings=settings)
+process.crawl(RuSpider)
+process.start()

@@ -3,7 +3,7 @@
 NEWSPIDER_MODULE = 'spider.spiders'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 # CONCURRENT_REQUESTS = 32
@@ -83,14 +83,16 @@ AUTOTHROTTLE_MAX_DELAY = 20
 # SPLASH_URL = 'http://192.168.0.102:8050'
 SPLASH_URL = 'http://splash:8050'
 
+DNS_TIMEOUT = 15
+
 REQUEST_FINGERPRINTER_IMPLEMENTATION = '2.7'
 TWISTED_REACTOR = 'twisted.internet.asyncioreactor.AsyncioSelectorReactor'
 
-FEEDS = {"my_items.json": {
-    "format": "jsonlines",
-    "encoding": "utf-8",
-},
-}
+# FEEDS = {"my_items.json": {
+#     "format": "jsonlines",
+#     "encoding": "utf-8",
+# },
+# }
 
 RU_NEWSPAPERS_URLS = [
     'https://aif.ru/',
@@ -101,7 +103,6 @@ RU_NEWSPAPERS_URLS = [
     'https://www.vedomosti.ru/',
     'https://www.kp.ru/',
     'https://tass.ru/',
-    'https://regnum.ru/',
 ]
 US_NEWSPAPERS_URLS = [
     'https://www.nytimes.com/',
@@ -154,10 +155,9 @@ USER_AGENT_LIST = [
     "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/109.0",
     "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:109.0) Gecko/20100101 Firefox/109.0",
     "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/109.0", ]
-# LOG_LEVEL = 'INFO'
-LOG_LEVEL = 'DEBUG'
-RETRY_ENABLED = True
-RETRY_TIMES = 3
+LOG_LEVEL = 'INFO'
+# LOG_LEVEL = 'DEBUG'
+RETRY_ENABLED = False
 
 # Socket settings
 SUBSCRIBERS_EXPECTED = 1
