@@ -28,7 +28,7 @@ jobs:
         run: |
           pip install flake8
           flake8 --ignore=E501 spider
-  build:
+  pull:
     needs: lint
     runs-on: ubuntu-latest
     steps:
@@ -51,3 +51,19 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/newsmakers-spider:latest
+  deploy:
+    needs: pull
+    name: deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh commands using key
+      uses: appleboy/ssh-action@v0.1.8
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        script: |
+          docker compose down
+          docker compose pull spider
+          docker compose up --build
+    
