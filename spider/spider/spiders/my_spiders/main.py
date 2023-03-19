@@ -1,3 +1,4 @@
+import os
 import random
 from datetime import datetime
 
@@ -61,5 +62,6 @@ class RuSpider(scrapy.Spider):
 
 
 process = CrawlerProcess(settings=settings)
-process.crawl(RuSpider)
-process.start()
+if int(os.environ.get("CRAWL")):
+    process.crawl(RuSpider)
+    process.start()
