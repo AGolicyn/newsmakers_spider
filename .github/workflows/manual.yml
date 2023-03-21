@@ -1,7 +1,9 @@
 name: Runner
 on:
   schedule:
-    - cron: '45 17 * * *'
+    - cron: '15 4 * * *'
+    - cron: '45 12 * * *'
+    - cron: '45 23 * * *'
 
 jobs:
   test_shedule:
@@ -9,5 +11,7 @@ jobs:
     steps:
       -
         name: Calling the spider
-        run: echo 'Time to crowl :)'
+        run: |
+          cd /app/newsmakers/
+          docker compose --env-file .env.crawl up -d
         
