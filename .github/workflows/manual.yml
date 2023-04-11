@@ -1,13 +1,21 @@
 name: Runner
 on:
   schedule:
-    - cron: '45 17 * * *'
+    - cron: '15 4 * * *'
+    - cron: '45 12 * * *'
+    - cron: '45 23 * * *'
 
 jobs:
-  test_shedule:
+  run_crawler:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Calling the spider
-        run: echo 'Time to crowl :)'
+    - name: executing remote ssh commands using key
+      uses: appleboy/ssh-action@v0.1.8
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        script: |
+          cd /app/newsmakers/
+          docker compose --env-file .env.crawl up -d
         
