@@ -6,7 +6,7 @@ NEWSPIDER_MODULE = 'spider.spiders'
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-# CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 5
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
@@ -117,7 +117,7 @@ US_NEWSPAPERS_URLS = [
 
 ]
 DE_NEWSPAPERS_URLS = [
-    'https://www.heise.de/',
+    # 'https://www.heise.de/',
     'https://www.focus.de/',
     'https://www.spiegel.de/',
     'https://www.faz.net/aktuell/',
