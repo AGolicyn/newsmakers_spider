@@ -117,7 +117,6 @@ US_NEWSPAPERS_URLS = [
 
 ]
 DE_NEWSPAPERS_URLS = [
-    # 'https://www.heise.de/',
     'https://www.focus.de/',
     'https://www.spiegel.de/',
     'https://www.faz.net/aktuell/',
@@ -134,11 +133,23 @@ DE_NEWSPAPERS_URLS = [
     'https://www.handelsblatt.com/',
     'https://www.berliner-zeitung.de/',
     'https://www.fnp.de/',
-    # 'https://www.freiepresse.de/',
     'https://www.rtl.de/',
     'https://www.nd-aktuell.de/',
     'https://www.rbb24.de/',
     'https://www.msn.com/de-de',
+]
+
+UK_NEWSPAPERS_URLS = [
+    'https://www.thesun.co.uk/',
+    'https://www.theguardian.com/international',
+    'https://news.sky.com/',
+    'https://www.independent.co.uk/',
+    'https://www.thetimes.co.uk/',
+    'https://www.express.co.uk/',
+    'https://www.mirror.co.uk/'
+    'https://metro.co.uk/',
+    'https://www.ft.com/',
+    'https://www.standard.co.uk/',
 ]
 
 DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
